@@ -1,0 +1,300 @@
+options {
+  IGNORE_CASE = true;
+  STATIC = false;
+}
+
+PARSER_BEGIN(JavaScriptLexer)
+/** Analizador de un subconjunto del lenguaje JavaScript. */
+package analizador;
+
+public class JavaScriptLexer {
+  public static void main(String[] args) throws ParseException {
+    JavaScriptLexer lexer = new JavaScriptLexer(System.in);
+    lexer.Program();
+  }
+}
+PARSER_END(JavaScriptLexer)
+
+/** Espacios en blanco y comentarios */
+SKIP : {
+    " " 
+    | "\t" 
+    | "\r" 
+    | "\n"
+    | < "/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/" > // Comentarios multilínea
+    | < "//" (~["\r", "\n"])* ("\r" | "\n") > // Comentarios de una línea
+}
+
+/** Tokens */
+TOKEN : {
+    //Palabras reservadas
+    < AWAIT: "await" >          {System.out.println("AWAIT -> " + image + "\n");}
+  | < BREAK: "break" >          {System.out.println("BREAK -> " + image + "\n");}
+  | < CASE: "case" >            {System.out.println("CASE -> " + image + "\n");}
+  | < CATCH: "catch" >          {System.out.println("CATCH -> " + image + "\n");}
+  | < CLASS: "class" >          {System.out.println("CLASS -> " + image + "\n");}
+  | < CONSOLE: "console" >      {System.out.println("CONSOLE -> " + image + "\n");}
+  | < CONST: "const" >          {System.out.println("CONST -> " + image + "\n");}
+  | < CONTINUE: "continue" >    {System.out.println("CONTINUE -> " + image + "\n");}
+  | < DEBUGGER: "debugger" >    {System.out.println("DEBUGGER -> " + image + "\n");}
+  // | < DEFAULT: "default" >   {System.out.println("DEFAULT -> " + image + "\n");}
+  | < DELETE: "delete" >        {System.out.println("DELETE -> " + image + "\n");}
+  | < DO: "do" >                {System.out.println("DO -> " + image + "\n");}
+  | < ELSE: "else" >            {System.out.println("ELSE -> " + image + "\n");}
+  | < ENUM: "enum" >            {System.out.println("ENUM -> " + image + "\n");}
+  | < EXPORT: "export" >        {System.out.println("EXPORT -> " + image + "\n");}
+  | < EXTENDS: "extends" >      {System.out.println("EXTENDS -> " + image + "\n");}
+  | < FALSE: "false" >          {System.out.println("FALSE -> " + image + "\n");}
+  | < FINALLY: "finally" >      {System.out.println("FINALLY -> " + image + "\n");}
+  | < FOR: "for" >              {System.out.println("FOR -> " + image + "\n");}
+  | < FUNCTION: "function" >    {System.out.println("FUNCTION -> " + image + "\n");}
+  | < IF: "if" >                {System.out.println("IF -> " + image + "\n");}
+  | < IMPLEMENTS: "implements" > {System.out.println("IMPLEMENTS -> " + image + "\n");}
+  | < IMPORT: "import" >        {System.out.println("IMPORT -> " + image + "\n");}
+  | < IN: "in" >                {System.out.println("IN -> " + image + "\n");}
+  | < INSTANCEOF: "instanceof" > {System.out.println("INSTANCEOF -> " + image + "\n");}
+  | < INTERFACE: "interface" >  {System.out.println("INTERFACE -> " + image + "\n");}
+  | < LET: "let" >              {System.out.println("LET -> " + image + "\n");}
+  | < LOG: "log" >              {System.out.println("LOG -> " + image + "\n");}
+  | < NEW: "new" >              {System.out.println("NEW -> " + image + "\n");}
+  | < NULL: "null" >            {System.out.println("NULL -> " + image + "\n");}
+  | < PACKAGE: "package" >      {System.out.println("PACKAGE -> " + image + "\n");}
+  | < PRIVATE: "private" >      {System.out.println("PRIVATE -> " + image + "\n");}
+  | < PROTECTED: "protected" >  {System.out.println("PROTECTED -> " + image + "\n");}
+  | < PUBLIC: "public" >        {System.out.println("PUBLIC -> " + image + "\n");}
+  | < RETURN: "return" >        {System.out.println("RETURN -> " + image + "\n");}
+  | < SUPER: "super" >          {System.out.println("SUPER -> " + image + "\n");}
+  | < SWITCH: "switch" >        {System.out.println("SWITCH -> " + image + "\n");}
+  | < STATIC: "static" >        {System.out.println("STATIC -> " + image + "\n");}
+  | < THIS: "this" >            {System.out.println("THIS -> " + image + "\n");}
+  | < THROW: "throw" >          {System.out.println("THROW -> " + image + "\n");}
+  | < TRY: "try" >              {System.out.println("TRY -> " + image + "\n");}
+  | < TYPEOF: "typeof" >        {System.out.println("TYPEOF -> " + image + "\n");}
+  | < TRUE: "true" >            {System.out.println("TRUE -> " + image + "\n");}
+  | < VAR: "var" >              {System.out.println("VAR -> " + image + "\n");}
+  | < VOID: "void" >            {System.out.println("VOID -> " + image + "\n");}
+  | < WHILE: "while" >          {System.out.println("WHILE -> " + image + "\n");}
+  | < WITH: "with" >            {System.out.println("WITH -> " + image + "\n");}
+  | < YIELD: "yield" >          {System.out.println("YIELD -> " + image + "\n");}
+
+    //Tokens generales como, identificadores, enteros, flotantes y cadenas.
+  | < IDENTIFICADOR: (["a"-"z", "A"-"Z", "_"]) (["a"-"z", "A"-"Z", "0"-"9", "_"])* >
+  | < INT: (["0"-"9"])+ >
+  | < FLOAT: (["0"-"9"])+ "." (["0"-"9"])* >
+  | < STRING: ("\"" (~["\""])* "\"") | ("\'" (~["\""])* "\'")>
+
+  | < PARENTESIS_I: "(" >
+  | < PARENTESIS_D: ")" >
+  | < LLAVE_IZQ: "{" >
+  | < LLAVE_DER: "}" >
+  | < CORCHETE_IZQ: "[" >
+  | < CORCHETE_DER: "]" >
+  | < PUNTO_Y_COMA: ";" > {System.out.println("PUNTO_Y_COMA -> " + image + "\n"); }
+  | < COMA: "," >
+  | < PUNTO: "." >
+
+    //Operadores
+    //Operadores Matematicos
+  | < MAS: "+" >
+  | < MENOS: "-" >
+  | < MULT: "*" >
+  | < DIV: "/" >
+  | < MOD: "%" >
+  | < IGUAL: "=" >
+  | < EXPONENCIAL: "**">
+    // Operadores de Asignacion
+  | < A_SUMA: "+=" >
+  | < A_RESTA: "-=" >
+  | < A_MULTIPLICACION: "*=" >
+  | < A_DIVISION: "/=" >
+  | < A_MODULO: "%=" >
+  | < A_EXPONENCIACION: "**=" >
+  | < A_AND: "&=" >
+  | < A_OR: "|=" >
+  | < A_XOR: "^=" >
+  | < ES_IGUAL: "==" >
+  | < NO_ES_IGUAL: "!=" >
+  | < MENOR: "<" >
+  | < MAYOR: ">" >
+  | < MENOR_IGUAL_QUE: "<=" >
+  | < MAYOR_IGUAL_QUE: ">=" >
+  | < IGUALDAD_ESTRICTA: "===" >
+  | < DESIGUALDAD_ESTRICTA: "!==" >
+  | < AND_LOGICO: "&&" >
+  | < OR_LOGICO: "||" >
+  | < NOT_LOGICO: "!" >
+  | < AND_BIT: "&" >
+  | < OR_BIT: "|" >
+  | < XOR_BIT: "^" >
+  | < NOT_BIT: "~" >
+  | < INCREMENTO: "++" >
+  | < DECREMENTO: "--" >
+}
+
+/** Reglas de producción */
+void Program() : {} {
+  (Statement())* <EOF>
+}
+
+void Statement() :{} {
+    VarDeclaracion()        //Declaracion de variables
+  | IfStatement()           //Declaracion de un IF
+  | WhileStatement()        //Declaracion bucle While
+  | ForBucle()              //Declaracion bucle For
+  | ReturnStatement()       //Retorno de algo (no confundir con la impresion)
+  | ExpressionStatement()   
+  | FunDeclaracion()        //Declaracion de una funcion
+  | ConsoleStatement()      //Declaracion de imprimir
+}
+
+//Declaracion de una variable ---------
+void VarDeclaracion() : {} { 
+  (<VAR> | <LET> | <CONST>) ? <IDENTIFICADOR> ( <IGUAL> (LlamarFuncion() | DatosBasicos() ) )? <PUNTO_Y_COMA>
+}
+
+//Un metodo que devuelve una "funcion" únicamente para guardarlo en una variable
+void LlamarFuncion() : {} {
+//      nomfuncion     (             lo de dentro       )
+    <IDENTIFICADOR> <PARENTESIS_I> ParameterList() <PARENTESIS_D>
+}
+
+
+void FunDeclaracion() : {} {
+//  funcion      nombre         (           lo que le pases        )         contenido
+  <FUNCTION> <IDENTIFICADOR> <PARENTESIS_I> (ParameterList())? <PARENTESIS_D> Bloque()
+}
+
+void ParameterList() : {} {
+  <IDENTIFICADOR> (<COMA> <IDENTIFICADOR>)*
+}
+
+void Bloque() : {} {
+  <LLAVE_IZQ> (Statement())* <LLAVE_DER>
+}
+
+
+void IfStatement() : {} {
+  <IF> <PARENTESIS_I> Expression() <PARENTESIS_D> Statement() ( <ELSE> Statement() )?
+}
+
+void WhileStatement() : {} {
+  <WHILE> <PARENTESIS_I> Expression() <PARENTESIS_D> Statement()
+}
+
+void ForStatement() : {} {
+  <FOR> <PARENTESIS_I> ( VarDeclaracion() | [Expression()] <PUNTO_Y_COMA> ) [Expression()] <PUNTO_Y_COMA> [Expression()] <PARENTESIS_D> Statement()
+}
+
+void ReturnStatement() : {} {
+    <RETURN> [Expression()] <PUNTO_Y_COMA> 
+}
+
+//Pa que chambee el console.log
+void ConsoleStatement() : {} {
+    <CONSOLE> <PUNTO> <LOG> <PARENTESIS_I> Contenido() <PARENTESIS_D> <PUNTO_Y_COMA>
+}
+
+
+//El contenido del console.log
+void Contenido() : {} { 
+    (DatosBasicos() | Concatenation())*
+}
+
+void Concatenation() : {} {
+    (<COMA> DatosBasicos()) | ( <MAS> DatosBasicos() )
+}
+void ExpressionStatement() : {} {
+  Expression() <PUNTO_Y_COMA>
+}
+
+void Expression() : {} {
+  AssignmentExpression()
+}
+
+void AssignmentExpression() : {} {
+  ConditionalExpression() ( <IGUAL> AssignmentExpression() )?
+}
+
+void ConditionalExpression() : {} {
+  OrExpression()
+}
+
+void OrExpression() : {} {
+  AndExpression() ( "||" AndExpression() )*
+}
+
+void AndExpression() : {} {
+  EqualityExpression() ( "&&" EqualityExpression() )*
+}
+
+void EqualityExpression() : {} {
+  RelationalExpression() ( ( <ES_IGUAL> | <NO_ES_IGUAL> ) RelationalExpression() )*
+}
+
+void RelationalExpression() : {} {
+  AdditiveExpression() ( ( <MENOR> | <MAYOR> | <MENOR_IGUAL_QUE> | <MAYOR_IGUAL_QUE> ) AdditiveExpression() )*
+}
+
+void AdditiveExpression() : {} {
+  MultiplicativeExpression() ( ( <MAS> | <MENOS> ) MultiplicativeExpression() )*
+}
+
+void MultiplicativeExpression() : {} {
+  UnaryExpression() ( ( <MULT> | <DIV> | <MOD> ) UnaryExpression() )*
+}
+
+void UnaryExpression() : {} {
+    <MAS> UnaryExpression()
+  | <MENOS> UnaryExpression()
+  | PrimaryExpression()
+}
+
+void PrimaryExpression() : {} {
+    <IDENTIFICADOR>
+  | <INT>
+  | <FLOAT>
+  | <STRING>
+  | <PARENTESIS_I> Expression() <PARENTESIS_D>
+}
+
+
+// Bucle for
+void ForBucle() : {} {
+    <FOR> <PARENTESIS_I> ContenidoFor() <PARENTESIS_D> Bloque()
+}
+
+//Lo que va dentro del for
+void ContenidoFor() : {} {
+    VarDeclaracion() <PUNTO_Y_COMA> ForCondicion() <PUNTO_Y_COMA> ForFinal()
+}
+
+//si se  inicializa una variable o nel
+void ForInicial() : {} {
+    [DeclaracionFor()]
+}
+
+//La condición que se debe cumplir
+void ForCondicion() : {} {
+       ( <IDENTIFICADOR> CondicionalesAsignacion() (<IDENTIFICADOR> | <INT> | <FLOAT>) ) 
+    |  ( (<IDENTIFICADOR> | <INT> | <FLOAT>) CondicionalesAsignacion() <IDENTIFICADOR> )
+}
+
+void ForFinal() : {} {
+    <IDENTIFICADOR> (<INCREMENTO> | <DECREMENTO> )
+}
+
+void DeclaracionFor() : {} {
+    [<LET>] <IDENTIFICADOR> <IGUAL> (<IDENTIFICADOR> | <INT> | <FLOAT>)
+}
+
+void DatosCompletos(): {} {
+    DatosBasicos() | <TRUE> | <FALSE>
+}
+
+void DatosBasicos() : {} {
+      <INT> 
+    | <IDENTIFICADOR> 
+    | <FLOAT> 
+    | <STRING> 
+    | <NULL>
+}

@@ -1,0 +1,29 @@
+Las principales cosas del Javascript:
+
+- Variables
+- Operadores
+- Estructuras de control:
+	- Condicional
+	- Switch
+	- Bucles (for, while y do-while)
+- Funciones
+- Objetos
+- Arrays
+
+Debo considerar diferentes cosas:
+Generales:
+-Checar lo de minusculas o mayusculas
+Variables:
+    Aceptar que puedan declararse varias variables en un mismo let/const/var
+
+
+//Va en variables
+( VariableNormal() | VariableAsignacion() | VariableMultiple() ) <PUNTO_Y_COMA>
+
+void VariableAsignacion(): {} {
+    <IDENTIFICADOR> <IGUAL> (FunctionShowStatement() | Datukis()| ArrayDeclaration())
+}
+
+void VariableMultiple() : {} {
+(<VAR> | <LET> | <CONST>) <IDENTIFICADOR> (<COMA> <IDENTIFICADOR>)* <PUNTO_Y_COMA>
+}

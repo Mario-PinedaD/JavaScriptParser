@@ -1,0 +1,12 @@
+Las principales cosas del Javascript:
+
+- Variables
+- Tipos de datos
+- Operadores
+- Estructuras de control:
+	- Condicional
+	- Switch
+	- Bucles (for, while y do-while)
+- Funciones
+- Objetos
+- Arrays

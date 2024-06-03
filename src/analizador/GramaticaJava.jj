@@ -1,0 +1,360 @@
+options {
+// Indica que el analizador ignora o no las diferencias en mayusculas y minusculas.
+  IGNORE_CASE = false;
+  STATIC = false;
+  LOOKAHEAD = 4;
+  //BUILD_PARSER = true;
+  //FORCE_LA_CHECK = true;
+}
+
+PARSER_BEGIN(JavaScriptParser)
+/** Analizador de un subconjunto del lenguaje JavaScript. */
+package analizador;
+
+public class JavaScriptParser {
+
+}
+PARSER_END(JavaScriptParser)
+
+/** Espacios en blanco y comentarios */
+SKIP : {
+      " "
+    | "\t" 
+    | "\r" 
+    | "\n"
+    | < "/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/" > // Comentarios multilínea
+    | < "//" (~["\r", "\n"])* ("\r" | "\n") > // Comentarios de una línea
+}
+
+/** Tokens */
+TOKEN : {
+    //Palabras reservadas
+    < AWAIT: "await" >          {System.out.println("AWAIT -> " + image);}
+  | < BREAK: "break" >          {System.out.println("BREAK -> " + image );}
+  | < CASE: "case" >            {System.out.println("CASE -> " + image );}
+  | < CATCH: "catch" >          {System.out.println("CATCH -> " + image );}
+  | < CLASS: "class" >          {System.out.println("CLASS -> " + image );}
+  | < CONSOLE: "console" >      {System.out.println("CONSOLE -> " + image );}
+  | < CONST: "const" >          {System.out.println("CONST -> " + image );}
+  | < CONTINUE: "continue" >    {System.out.println("CONTINUE -> " + image );}
+  | < DEBUGGER: "debugger" >    {System.out.println("DEBUGGER -> " + image );}
+  | < DEFAUL: "default" >       {System.out.println("DEFAULT -> " + image );}
+  | < DELETE: "delete" >        {System.out.println("DELETE -> " + image );}
+  | < DO: "do" >                {System.out.println("DO -> " + image );}
+  | < ELSE: "else" >            {System.out.println("ELSE -> " + image );}
+  | < ENUM: "enum" >            {System.out.println("ENUM -> " + image );}
+  | < EXPORT: "export" >        {System.out.println("EXPORT -> " + image );}
+  | < EXTENDS: "extends" >      {System.out.println("EXTENDS -> " + image );}
+  | < FALSE: "false" >          {System.out.println("FALSE -> " + image );}
+  | < FINALLY: "finally" >      {System.out.println("FINALLY -> " + image );}
+  | < FOR: "for" >              {System.out.println("FOR -> " + image );}
+  | < FUNCTION: "function" >    {System.out.println("FUNCTION -> " + image );}
+  | < IF: "if" >                {System.out.println("IF -> " + image );}
+  | < IMPLEMENTS: "implements" > {System.out.println("IMPLEMENTS -> " + image );}
+  | < IMPORT: "import" >        {System.out.println("IMPORT -> " + image );}
+  | < IN: "in" >                {System.out.println("IN -> " + image );}
+  | < INSTANCEOF: "instanceof" > {System.out.println("INSTANCEOF -> " + image );}
+  | < INTERFACE: "interface" >  {System.out.println("INTERFACE -> " + image );}
+  | < LET: "let" >              {System.out.println("LET -> " + image );}
+  | < LOG: "log" >              {System.out.println("LOG -> " + image );}
+  | < NEW: "new" >              {System.out.println("NEW -> " + image );}
+  | < NULL: "null" >            {System.out.println("NULL -> " + image );}
+  | < PACKAGE: "package" >      {System.out.println("PACKAGE -> " + image );}
+  | < PRIVATE: "private" >      {System.out.println("PRIVATE -> " + image );}
+  | < PROTECTED: "protected" >  {System.out.println("PROTECTED -> " + image );}
+  | < PUBLIC: "public" >        {System.out.println("PUBLIC -> " + image );}
+  | < RETURN: "return" >        {System.out.println("RETURN -> " + image );}
+  | < SUPER: "super" >          {System.out.println("SUPER -> " + image );}
+  | < SWITCH: "switch" >        {System.out.println("SWITCH -> " + image );}
+  | < STATIC: "static" >        {System.out.println("STATIC -> " + image );}
+  | < THIS: "this" >            {System.out.println("THIS -> " + image );}
+  | < THROW: "throw" >          {System.out.println("THROW -> " + image );}
+  | < TRY: "try" >              {System.out.println("TRY -> " + image );}
+  | < TYPEOF: "typeof" >        {System.out.println("TYPEOF -> " + image );}
+  | < TRUE: "true" >            {System.out.println("TRUE -> " + image );}
+  | < VAR: "var" >              {System.out.println("VAR -> " + image );}
+  | < VOID: "void" >            {System.out.println("VOID -> " + image );}
+  | < WHILE: "while" >          {System.out.println("WHILE -> " + image );}
+  | < WITH: "with" >            {System.out.println("WITH -> " + image );}
+  | < YIELD: "yield" >          {System.out.println("YIELD -> " + image );}
+
+    //Tokens generales como, identificadores, enteros, flotantes y cadenas.
+  | < IDENTIFICADOR: (["a"-"z", "A"-"Z", "_"]) (["a"-"z", "A"-"Z", "0"-"9", "_"])* > {System.out.println("IDENTIFICADOR -> " + image );}
+  | < INT: (["0"-"9"])+ > {System.out.println("INT -> " + image );}
+  | < FLOAT: (["0"-"9"])+ "." (["0"-"9"])* > {System.out.println("FLOAT -> " + image );}
+  | < STRING: ("\"" (~["\""])* "\"") | ("\'" (~["\""])* "\'")> {System.out.println("STRING -> " + image );}
+
+  | < PARENTESIS_I: "(" > {System.out.println("PARENTESIS_I -> " + image );}
+  | < PARENTESIS_D: ")" > {System.out.println("PARENTESIS_D -> " + image );}
+  | < LLAVE_IZQ: "{" > {System.out.println("LLAVE_IZQ -> " + image );}
+  | < LLAVE_DER: "}" > {System.out.println("LLAVE_DER -> " + image );}
+  | < CORCHETE_IZQ: "[" > {System.out.println("CORCHETE_IZQ -> " + image );}
+  | < CORCHETE_DER: "]" > {System.out.println("CORCHETE_DER -> " + image );}
+  | < PUNTO_Y_COMA: ";" > {System.out.println("PUNTO_Y_COMA -> " + image ); }
+  | < DOS_PUNTOS: ":"> {System.out.println("DOS_PUNTOS -> " + image );}
+  | < COMA: "," > {System.out.println("COMA -> " + image );}
+  | < PUNTO: "." > {System.out.println("PUNTO -> " + image );}
+
+    //Operadores
+    //Operadores Matematicos
+  | < MAS: "+" > {System.out.println("MAS -> " + image );}
+  | < MENOS: "-" > {System.out.println("MENOS -> " + image );}
+  | < MULT: "*" > {System.out.println("MULT -> " + image );}
+  | < DIV: "/" > {System.out.println("DIV -> " + image );}
+  | < MOD: "%" > {System.out.println("MOD -> " + image );}
+  | < IGUAL: "=" > {System.out.println("IGUAL -> " + image );}
+  | < EXPONENCIAL: "**"> {System.out.println("EXPONENCIAL -> " + image );}
+    // Operadores de Asignacion
+  | < A_SUMA: "+=" > {System.out.println("A_SUMA -> " + image );}
+  | < A_RESTA: "-=" > {System.out.println("A_RESTA -> " + image );}
+  | < A_MULTIPLICACION: "*=" > {System.out.println("A_MULTIPLICACION -> " + image );}
+  | < A_DIVISION: "/=" > {System.out.println("A_DIVISION -> " + image );}
+  | < A_MODULO: "%=" > {System.out.println("A_MODULO -> " + image );}
+  | < A_EXPONENCIACION: "**=" > {System.out.println("A_EXPONENCIACION -> " + image );}
+  | < A_AND: "&=" > {System.out.println("A_AND -> " + image );}
+  | < A_OR: "|=" > {System.out.println("A_OR -> " + image );}
+  | < A_XOR: "^=" > {System.out.println("A_XOR -> " + image );}
+  | < ES_IGUAL: "==" > {System.out.println("ES_IGUAL -> " + image );}
+  | < NO_ES_IGUAL: "!=" > {System.out.println("NO_ES_IGUAL -> " + image );}
+  | < MENOR: "<" > {System.out.println("MENOR -> " + image );}
+  | < MAYOR: ">" > {System.out.println("MAYOR -> " + image );}
+  | < MENOR_IGUAL_QUE: "<=" > {System.out.println("MENOR_IGUAL_QUE -> " + image );}
+  | < MAYOR_IGUAL_QUE: ">=" > {System.out.println("MAYOR_IGUAL_QUE -> " + image );}
+  | < IGUALDAD_ESTRICTA: "===" > {System.out.println("IGUALDAD_ESTRICTA -> " + image );}
+  | < DESIGUALDAD_ESTRICTA: "!==" > {System.out.println("DESIGUALDAD_ESTRICTA -> " + image );}
+  | < AND_LOGICO: "&&" > {System.out.println("AND_LOGICO -> " + image );}
+  | < OR_LOGICO: "||" > {System.out.println("OR_LOGICO -> " + image );}
+  | < NOT_LOGICO: "!" > {System.out.println("NOT_LOGICO -> " + image );}
+  | < AND_BIT: "&" > {System.out.println("AND_BIT -> " + image );}
+  | < OR_BIT: "|" > {System.out.println("OR_BIT -> " + image );}
+  | < XOR_BIT: "^" > {System.out.println("XOR_BIT -> " + image );}
+  | < NOT_BIT: "~" > {System.out.println("NOT_BIT -> " + image );}
+  | < INCREMENTO: "++" > {System.out.println("INCREMENTO -> " + image );}
+  | < DECREMENTO: "--" > {System.out.println("DECREMENTO -> " + image );}
+}
+
+
+/** Reglas de producción */
+void Program() : {} {
+  (Statement())* <EOF>
+}
+
+/* void Statement() :{} {
+    VariableStatement()
+  | VariableAsignacion()
+  | IfStatement()
+  | WhileStatement()
+  | ForStatement()
+  | DoWhileStatement()
+  | ReturnStatement()       //Retorno de algo (no confundir con la impresion)
+  | ExpressionStatement()
+  | FunctionStatement()     //Declaracion de una funcion
+  | ConsoleStatement()      //Declaracion de imprimir
+  | SwitchStatement()
+  | BreakStatement()
+  | FunctionShowStatement()
+}*/
+
+void Statement() :{} {
+    VariableStatement()
+  | IfStatement()
+  | WhileStatement()
+  | ForStatement()
+  | ReturnStatement()       //Retorno de algo (no confundir con la impresion)
+  | ExpressionStatement()
+  | FunctionStatement()     //Declaracion de una funcion
+  | ConsoleStatement()      //Declaracion de imprimir
+  | SwitchStatement()
+  | BreakStatement()
+}
+
+void VariableStatement() : {} {
+  (<VAR> | <LET> | <CONST>)  Variablecont() <PUNTO_Y_COMA>
+}
+
+void Variablecont() : {} {
+     <IDENTIFICADOR> ( <IGUAL> (FunctionShowStatement() | DatosCompletos() | ArrayDeclaration() ))?
+   | ArrayCont()
+   | VariableAsignacion()
+   | VariableMultiple()
+}
+
+void VariableMultiple() : {} {
+    <IDENTIFICADOR> ( <COMA> <IDENTIFICADOR> )*
+}
+/*
+void VariableAsignacion(): {} {
+    <IDENTIFICADOR> ( <IGUAL> <IDENTIFICADOR> )+ DatosCompletos() <PUNTO_Y_COMA>
+}
+*/
+void VariableAsignacion() : {} {
+    <IDENTIFICADOR> ( <IGUAL> AssignmentExpression() )+ <PUNTO_Y_COMA>
+}
+
+//Un metodo que devuelve una "funcion" únicamente para guardarlo en una variable
+void FunctionShowStatement() : {} {
+    <IDENTIFICADOR> <PARENTESIS_I> ParameterList() <PARENTESIS_D>
+}
+
+
+void ArrayDeclaration() : {} {
+    <CORCHETE_IZQ> [ArrayCont()] (ArrayDeclaration() )* <CORCHETE_DER>
+}
+
+void ArrayCont() : {} {
+    DatosCompletos() (<COMA> DatosCompletos() )*
+}
+
+//Pa que chambee el console.log
+void ConsoleStatement() : {} {
+    <CONSOLE> <PUNTO> <LOG> <PARENTESIS_I> Contenido() <PARENTESIS_D> <PUNTO_Y_COMA>
+}
+
+void FunctionStatement() : {} {
+  <FUNCTION> <IDENTIFICADOR> <PARENTESIS_I> (ParameterList())? <PARENTESIS_D> Bloque()
+}
+
+void ParameterList() : {} {
+  <IDENTIFICADOR> (<COMA> <IDENTIFICADOR>)*
+}
+
+void Bloque() : {} {
+  <LLAVE_IZQ> (Statement())* <LLAVE_DER>
+}
+
+void IfStatement() : {} {
+  <IF> <PARENTESIS_I> Expression() <PARENTESIS_D> Bloque() ( <ELSE> (Bloque() | IfStatement() ) )?
+}
+
+void ForStatement() : {} {
+  <FOR> <PARENTESIS_I> ( VariableStatement() | [Expression()] ) <PUNTO_Y_COMA> [Expression()] <PUNTO_Y_COMA> [Expression()] <PARENTESIS_D> Bloque()
+}
+
+void WhileStatement() : {} {
+  <WHILE> <PARENTESIS_I> ( Expression() | Booleans() ) <PARENTESIS_D> Bloque() //Checar si cambiar por Bloque()
+}
+
+void DoWhileStatement() : {} {
+    <DO> Bloque() <WHILE> <PARENTESIS_I>  Expression() <PARENTESIS_D> <PUNTO_Y_COMA>
+}
+void SwitchStatement() : {} {
+    <SWITCH> <PARENTESIS_I> Expression() <PARENTESIS_D> <LLAVE_IZQ> (CaseClause())* (DefaultClause())? <LLAVE_DER>
+}
+
+void CaseClause() : {} {
+    <CASE> Expression() <DOS_PUNTOS> (Statement())* (BreakStatement() )?
+}
+
+void DefaultClause() : {} {
+    <DEFAUL> <DOS_PUNTOS> (Statement())* (BreakStatement() )?
+}
+
+void BreakStatement(): {}{
+    <BREAK> <PUNTO_Y_COMA>
+}
+
+void ReturnStatement() : {} {
+    <RETURN> [Expression()] <PUNTO_Y_COMA> 
+}
+
+//El contenido del console.log
+void Contenido() : {} { 
+    (DatosBasicos() | Concatenation())*
+}
+
+void Concatenation() : {} {
+    (<COMA> DatosBasicos()) | ( <MAS> DatosBasicos() )
+}
+void ExpressionStatement() : {} {
+  Expression() <PUNTO_Y_COMA>
+}
+
+void Expression() : {} {
+  AssignmentExpression()
+}
+/*
+void AssignmentExpression() : {} {
+  ConditionalExpression() ( <IGUAL> AssignmentExpression() )?
+}
+*/
+void AssignmentExpression() : {} {
+    <IDENTIFICADOR> ( <IGUAL> AssignmentExpression() )
+  | ConditionalExpression()
+}
+
+void ConditionalExpression() : {} {
+  OrExpression()
+}
+
+void OrExpression() : {} {
+  AndExpression() ( "||" AndExpression() )*
+}
+
+void AndExpression() : {} {
+  EqualityExpression() ( "&&" EqualityExpression() )*
+}
+
+void EqualityExpression() : {} {
+  RelationalExpression() ( ( <ES_IGUAL> | <NO_ES_IGUAL> ) RelationalExpression() )*
+}
+
+void RelationalExpression() : {} {
+  AdditiveExpression() ( ( <MENOR> | <MAYOR> | <MENOR_IGUAL_QUE> | <MAYOR_IGUAL_QUE> ) AdditiveExpression() )*
+}
+
+void AdditiveExpression() : {} {
+  MultiplicativeExpression() ( ( <MAS> | <MENOS> ) MultiplicativeExpression() )*
+}
+
+void MultiplicativeExpression() : {} {
+  UnaryExpression() ( ( <MULT> | <DIV> | <MOD> ) UnaryExpression() )*
+}
+
+void UnaryExpression() : {} {
+    <MAS> UnaryExpression()
+  | <MENOS> UnaryExpression()
+  | IncrementDecrementExpression()
+  | PrimaryExpression()
+}
+
+void IncrementDecrementExpression() : {} {
+    ( <INCREMENTO> | <DECREMENTO> )? PrimaryExpression() ( <INCREMENTO> | <DECREMENTO> )?
+}
+
+void PrimaryExpression() : {} {
+    <IDENTIFICADOR>
+  | <INT>
+  | <FLOAT>
+  | <STRING>
+  | <PARENTESIS_I> Expression() <PARENTESIS_D>
+}
+
+void OperationsAlgebraic() : {} {
+      <MAS>
+    | <MENOS>
+    | <MULT>
+    | <DIV>
+    | <EXPONENCIAL>
+}
+
+void DatosCompletos(): {} {
+      <INT>
+    | <IDENTIFICADOR>
+    | <FLOAT>
+    | <STRING>
+    | <NULL>
+    | <TRUE>
+    | <FALSE>
+}
+
+void Booleans() : {} {
+    <TRUE> | <FALSE>
+}
+
+void DatosBasicos() : {} {
+      <INT> 
+    | <IDENTIFICADOR> 
+    | <FLOAT> 
+    | <STRING> 
+    | <NULL>
+}
